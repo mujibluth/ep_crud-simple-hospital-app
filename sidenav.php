@@ -22,6 +22,10 @@
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                 Daftar Kunjungan
             </a>
+            <a class="nav-link" href="riwayat_kunjungan.php">
+                <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
+                Riwayat Kunjungan
+            </a>
 
             <div class="sidenav-menu-heading">Pelaporan</div>
             <a class="nav-link" href="tables.html">
