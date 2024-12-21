@@ -103,51 +103,6 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-4">
-                            <div class="card-header">Personnel Management</div>
-                            <div class="card-body table-responsive">
-                                <table id="datatablesSimple" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>NIK</th>
-                                            <th>Nama</th>
-                                            <th>Jenis Kelamin</th>
-                                            <th>Golongan Darah</th>
-                                            <th>Tanggal Lahir</th>
-                                            <th>Alamat</th>
-                                            <th>Kota</th>
-                                            <th>Alergi</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>NIK</th>
-                                            <th>Nama</th>
-                                            <th>Jenis Kelamin</th>
-                                            <th>Golongan Darah</th>
-                                            <th>Tanggal Lahir</th>
-                                            <th>Alamat</th>
-                                            <th>Kota</th>
-                                            <th>Alergi</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <?php while ($row = $result->fetch_assoc()): ?>
-                                            <tr>
-                                                <td><?= $row['nik'] ?></td>
-                                                <td><?= $row['nama'] ?></td>
-                                                <td><?= $row['jenis_kelamin'] ?></td>
-                                                <td><?= $row['golongan_darah'] ?></td>
-                                                <td><?= $row['tgl_lahir'] ?></td>
-                                                <td><?= $row['alamat_lengkap'] ?></td>
-                                                <td><?= $row['id_kota'] ?></td>
-                                                <td><?= $row['id_alergi'] ?></td>
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                     </div>
                 </main>
                 <footer class="footer-admin mt-auto footer-light">

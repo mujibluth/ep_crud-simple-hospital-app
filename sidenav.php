@@ -12,7 +12,7 @@
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                 Pasien Baru
             </a>
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="lihat_pasien.php">
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                 Lihat & Ubah Pasien
             </a>
