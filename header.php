@@ -8,12 +8,6 @@
                 </h1>
                 <div class="page-header-subtitle">Kesehatan Anda adalah Priotitas Paling Penting Bagi Kami!</div>
             </div>
-            <div class="col-12 col-xl-auto mt-4">
-                <div class="input-group input-group-joined border-0" style="width: 16.5rem">
-                    <span class="input-group-text"><i class="text-primary" data-feather="calendar"></i></span>
-                    <input class="form-control ps-0 pointer" id="litepickerRangePlugin" placeholder="Select date range..." />
-                </div>
-            </div>
         </div>
     </div>
 </div>
