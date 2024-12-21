@@ -34,7 +34,7 @@ $alergi = $conn->query("SELECT * FROM alergi");
 
                     <div class="container-xl px-4 mt-n10">
                         <div class="card mb-4">
-                            <div class="card-header">Personnel Management</div>
+                            <div class="card-header">Tabel Data Pasien</div>
                             <div class="card-body table-responsive">
                                 <table id="datatablesSimple" class="table">
                                     <thead>
