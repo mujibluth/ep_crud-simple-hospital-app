@@ -4,6 +4,10 @@ $kunjungan = $conn->query("SELECT * FROM kunjungan");
 $result = $conn->query("SELECT * FROM pasien");
 $kota = $conn->query("SELECT * FROM kota");
 $alergi = $conn->query("SELECT * FROM alergi");
+
+function formatRupiah($number) {
+    return "Rp. " . number_format($number, 0, ',', '.');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +67,7 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                                 <td><?= $row['nik'] ?></td>
                                                 <td><?= $row['no_rm'] ?></td>
                                                 <td><?= $row['hasil_kunjungan'] ?></td>
-                                                <td><?= $row['biaya'] ?></td>
+                                                <td><?= formatRupiah($row['biaya']); ?></td>
                                             </tr>
                                         <?php endwhile; ?>
                                     </tbody>
