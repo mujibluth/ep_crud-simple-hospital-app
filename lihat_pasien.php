@@ -100,7 +100,8 @@ while ($row = $alergiResult->fetch_assoc()) {
                                                 <td><?= $row['nama_kota'] ?></td>
                                                 <td><?= implode(', ', $alergiNames) ?></td>
                                                 <td>
-                                                    <a href="edit_pasien.php?edit=<?= $row['nik'] ?>"><i class="me-2" data-feather="edit-2"></i></a>
+                                                    <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="edit_pasien.php?edit=<?= $row['nik'] ?>"><i data-feather="edit"></i></a>
+                                                    <a class="btn btn-datatable btn-icon btn-transparent-dark" href="delete_pasien.php?delete=<?= $row['nik'] ?>" onclick="return confirm('Yakin ingin menghapus data ini?');"><i data-feather="trash-2"></i></a>
                                                 </td>
                                             </tr>
                                         <?php endwhile; ?>

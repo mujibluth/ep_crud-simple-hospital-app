@@ -19828,7 +19828,7 @@ body {
 
 .footer-admin {
   height: 5rem;
-  display: flex;
+  display: block;
   align-items: center;
 }
 .footer-admin.footer-dark {
