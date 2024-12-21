@@ -17,6 +17,12 @@
                 Lihat & Ubah Pasien
             </a>
 
+            <div class="sidenav-menu-heading">Data Kunjungan</div>
+            <a class="nav-link" href="daftar_kunjungan.php">
+                <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
+                Daftar Kunjungan
+            </a>
+
             <div class="sidenav-menu-heading">Pelaporan</div>
             <a class="nav-link" href="tables.html">
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
