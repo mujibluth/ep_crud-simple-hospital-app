@@ -63,6 +63,7 @@ while ($row = $alergiResult->fetch_assoc()) {
                                             <th>Alamat</th>
                                             <th>Kota</th>
                                             <th>Alergi</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -75,6 +76,7 @@ while ($row = $alergiResult->fetch_assoc()) {
                                             <th>Alamat</th>
                                             <th>Kota</th>
                                             <th>Alergi</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -97,6 +99,9 @@ while ($row = $alergiResult->fetch_assoc()) {
                                                 <td><?= $row['alamat_lengkap'] ?></td>
                                                 <td><?= $row['nama_kota'] ?></td>
                                                 <td><?= implode(', ', $alergiNames) ?></td>
+                                                <td>
+                                                    <a href="edit_pasien.php?edit=<?= $row['nik'] ?>"><i class="me-2" data-feather="edit-2"></i></a>
+                                                </td>
                                             </tr>
                                         <?php endwhile; ?>
                                     </tbody>

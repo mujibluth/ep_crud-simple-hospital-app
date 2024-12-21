@@ -12,14 +12,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_kota = $_POST['id_kota'];
     $id_alergi = json_encode($_POST['id_alergi']);
 
-    $stmt = $conn->prepare("INSERT INTO pasien (nik, nama, jenis_kelamin, golongan_darah, tgl_lahir, alamat_lengkap, id_kota, id_alergi) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssis", $nik, $nama, $jenis_kelamin, $golongan_darah, $tgl_lahir, $alamat_lengkap, $id_kota, $id_alergi);
-    $stmt->execute();
-    $stmt->close();
+    if (isset($_POST['edit_nik'])) { // Jika ada edit_nik, lakukan update
+        $edit_nik = $_POST['edit_nik'];
+        $stmt = $conn->prepare("UPDATE pasien SET nik=?, nama=?, jenis_kelamin=?, golongan_darah=?, tgl_lahir=?, alamat_lengkap=?, id_kota=?, id_alergi=? WHERE nik=?");
+        $stmt->bind_param("ssssssiss", $nik, $nama, $jenis_kelamin, $golongan_darah, $tgl_lahir, $alamat_lengkap, $id_kota, $id_alergi, $edit_nik);
+        $stmt->execute();
+        $stmt->close();
+    } else { // Jika tidak, tambahkan data baru
+        $stmt = $conn->prepare("INSERT INTO pasien (nik, nama, jenis_kelamin, golongan_darah, tgl_lahir, alamat_lengkap, id_kota, id_alergi) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssis", $nik, $nama, $jenis_kelamin, $golongan_darah, $tgl_lahir, $alamat_lengkap, $id_kota, $id_alergi);
+        $stmt->execute();
+        $stmt->close();
+    }
 }
 
-// Fetch data pasien
-$result = $conn->query("SELECT * FROM pasien");
+// Fetch data pasien untuk list
+$result = $conn->query("SELECT pasien.*, kota.nama AS kota_nama FROM pasien JOIN kota ON pasien.id_kota = kota.id");
+
+// Fetch data untuk form edit jika ada parameter `edit`
+$edit_data = null;
+if (isset($_GET['edit'])) {
+    $nik = $_GET['edit'];
+    $edit_result = $conn->query("SELECT * FROM pasien WHERE nik = '$nik'");
+    $edit_data = $edit_result->fetch_assoc();
+}
+
 $kota = $conn->query("SELECT * FROM kota");
 $alergi = $conn->query("SELECT * FROM alergi");
 ?>
@@ -33,45 +50,49 @@ $alergi = $conn->query("SELECT * FROM alergi");
     <h1>CRUD Pasien</h1>
 
     <form method="POST">
+        <input type="hidden" name="edit_nik" value="<?= $edit_data['nik'] ?? '' ?>">
+
         <label>NIK:</label>
-        <input type="text" name="nik" required><br>
+        <input type="text" name="nik" value="<?= $edit_data['nik'] ?? '' ?>" required><br>
 
         <label>Nama:</label>
-        <input type="text" name="nama" required><br>
+        <input type="text" name="nama" value="<?= $edit_data['nama'] ?? '' ?>" required><br>
 
         <label>Jenis Kelamin:</label>
         <select name="jenis_kelamin">
-            <option value="Laki-laki">Laki-laki</option>
-            <option value="Perempuan">Perempuan</option>
+            <option value="Laki-laki" <?= (isset($edit_data['jenis_kelamin']) && $edit_data['jenis_kelamin'] === 'Laki-laki') ? 'selected' : '' ?>>Laki-laki</option>
+            <option value="Perempuan" <?= (isset($edit_data['jenis_kelamin']) && $edit_data['jenis_kelamin'] === 'Perempuan') ? 'selected' : '' ?>>Perempuan</option>
         </select><br>
 
         <label>Golongan Darah:</label>
         <select name="golongan_darah">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="AB">AB</option>
-            <option value="O">O</option>
+            <option value="A" <?= (isset($edit_data['golongan_darah']) && $edit_data['golongan_darah'] === 'A') ? 'selected' : '' ?>>A</option>
+            <option value="B" <?= (isset($edit_data['golongan_darah']) && $edit_data['golongan_darah'] === 'B') ? 'selected' : '' ?>>B</option>
+            <option value="AB" <?= (isset($edit_data['golongan_darah']) && $edit_data['golongan_darah'] === 'AB') ? 'selected' : '' ?>>AB</option>
+            <option value="O" <?= (isset($edit_data['golongan_darah']) && $edit_data['golongan_darah'] === 'O') ? 'selected' : '' ?>>O</option>
         </select><br>
 
         <label>Tanggal Lahir:</label>
-        <input type="date" name="tgl_lahir" required><br>
+        <input type="date" name="tgl_lahir" value="<?= $edit_data['tgl_lahir'] ?? '' ?>" required><br>
 
         <label>Alamat Lengkap:</label>
-        <textarea name="alamat_lengkap" required></textarea><br>
+        <textarea name="alamat_lengkap" required><?= $edit_data['alamat_lengkap'] ?? '' ?></textarea><br>
 
         <label>Kota:</label>
         <select name="id_kota">
             <?php while ($row = $kota->fetch_assoc()): ?>
-                <option value="<?= $row['id'] ?>"><?= $row['nama'] ?></option>
+                <option value="<?= $row['id'] ?>" <?= (isset($edit_data['id_kota']) && $edit_data['id_kota'] == $row['id']) ? 'selected' : '' ?>><?= $row['nama'] ?></option>
             <?php endwhile; ?>
         </select><br>
 
         <label>Alergi:</label>
-        <?php while ($row = $alergi->fetch_assoc()): ?>
-            <input type="checkbox" name="id_alergi[]" value="<?= $row['id'] ?>"> <?= $row['nama'] ?><br>
+        <?php
+        $selected_alergi = isset($edit_data['id_alergi']) ? json_decode($edit_data['id_alergi'], true) : [];
+        while ($row = $alergi->fetch_assoc()): ?>
+            <input type="checkbox" name="id_alergi[]" value="<?= $row['id'] ?>" <?= in_array($row['id'], $selected_alergi) ? 'checked' : '' ?>> <?= $row['nama'] ?><br>
         <?php endwhile; ?>
 
-        <button type="submit">Tambah</button>
+        <button type="submit"><?= isset($edit_data) ? 'Update' : 'Tambah' ?></button>
     </form>
 
     <h2>Daftar Pasien</h2>
@@ -86,6 +107,7 @@ $alergi = $conn->query("SELECT * FROM alergi");
                 <th>Alamat</th>
                 <th>Kota</th>
                 <th>Alergi</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -97,8 +119,11 @@ $alergi = $conn->query("SELECT * FROM alergi");
                     <td><?= $row['golongan_darah'] ?></td>
                     <td><?= $row['tgl_lahir'] ?></td>
                     <td><?= $row['alamat_lengkap'] ?></td>
-                    <td><?= $row['id_kota'] ?></td>
-                    <td><?= $row['id_alergi'] ?></td>
+                    <td><?= $row['kota_nama'] ?></td>
+                    <td><?= implode(", ", json_decode($row['id_alergi'], true)) ?></td>
+                    <td>
+                        <a href="?edit=<?= $row['nik'] ?>">Edit</a>
+                    </td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
