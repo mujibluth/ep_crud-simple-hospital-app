@@ -2,20 +2,22 @@
     <div class="sidenav-menu">
         <div class="nav accordion" id="accordionSidenav">
             <div class="sidenav-menu-heading">Core</div>
-            <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
+            <a class="nav-link" href="index.php">
                 <div class="nav-link-icon"><i data-feather="activity"></i></div>
                 Dashboards
             </a>
 
-            <div class="sidenav-menu-heading">Plugins</div>
-            <a class="nav-link" href="charts.html">
+            <div class="sidenav-menu-heading">Data Pasien</div>
+            <a class="nav-link" href="tambah_pasien.php">
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                Tambah Pasien
+                Pasien Baru
             </a>
             <a class="nav-link" href="tables.html">
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                 Lihat & Ubah Pasien
             </a>
+
+            <div class="sidenav-menu-heading">Pelaporan</div>
             <a class="nav-link" href="tables.html">
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                 Laporan Keuangan

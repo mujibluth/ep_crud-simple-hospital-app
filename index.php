@@ -1,29 +1,9 @@
-<?php
+<?php 
 include 'db_connect.php';
-
-// Handle tambah data
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nik = $_POST['nik'];
-    $nama = $_POST['nama'];
-    $jenis_kelamin = $_POST['jenis_kelamin'];
-    $golongan_darah = $_POST['golongan_darah'];
-    $tgl_lahir = $_POST['tgl_lahir'];
-    $alamat_lengkap = $_POST['alamat_lengkap'];
-    $id_kota = $_POST['id_kota'];
-    $id_alergi = json_encode($_POST['id_alergi']);
-
-    $stmt = $conn->prepare("INSERT INTO pasien (nik, nama, jenis_kelamin, golongan_darah, tgl_lahir, alamat_lengkap, id_kota, id_alergi) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssis", $nik, $nama, $jenis_kelamin, $golongan_darah, $tgl_lahir, $alamat_lengkap, $id_kota, $id_alergi);
-    $stmt->execute();
-    $stmt->close();
-}
-
-// Fetch data pasien
 $result = $conn->query("SELECT * FROM pasien");
 $kota = $conn->query("SELECT * FROM kota");
 $alergi = $conn->query("SELECT * FROM alergi");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>

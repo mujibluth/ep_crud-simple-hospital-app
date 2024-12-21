@@ -30,6 +30,7 @@ CREATE TABLE `pasien` (
     `jenis_kelamin` ENUM('Laki-laki', 'Perempuan') NOT NULL,
     `golongan_darah` ENUM('A', 'B', 'AB', 'O') NOT NULL,
     `tgl_lahir` DATE NOT NULL,
+    `tempat_lahir` INT NOT NULL,
     `alamat_lengkap` TEXT NOT NULL,
     `id_kota` INT NOT NULL,
     `id_alergi` TEXT NOT NULL, -- Disimpan dalam format JSON
