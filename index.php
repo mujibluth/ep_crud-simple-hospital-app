@@ -1,8 +1,18 @@
-<?php 
+<?php
 include 'db_connect.php';
-$result = $conn->query("SELECT * FROM pasien");
-$kota = $conn->query("SELECT * FROM kota");
-$alergi = $conn->query("SELECT * FROM alergi");
+
+$result_pasien = $conn->query("SELECT COUNT(*) AS total_pasien FROM pasien");
+$total_pasien = $result_pasien->fetch_assoc()['total_pasien'];
+
+$result_kunjungan = $conn->query("SELECT COUNT(*) AS total_kunjungan FROM kunjungan");
+$total_kunjungan = $result_kunjungan->fetch_assoc()['total_kunjungan'];
+
+$result_pendapatan = $conn->query("SELECT SUM(biaya) AS total_pendapatan FROM kunjungan");
+$total_pendapatan = $result_pendapatan->fetch_assoc()['total_pendapatan'];
+
+function formatRupiah($number) {
+    return "Rp. " . number_format($number, 0, ',', '.');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,73 +43,47 @@ $alergi = $conn->query("SELECT * FROM alergi");
 
                     <div class="px-4 mt-n10">
                         <div class="row">
-                            <div class="col-lg-6 col-xl-3 mb-4">
-                                <div class="card bg-primary text-white h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-xl-4 mb-4">
+                                <a class="card lift h-100" href="#!">
+                                    <div class="card-body d-flex justify-content-center flex-column">
+                                        <div class="d-flex align-items-center justify-content-between">
                                             <div class="me-3">
-                                                <div class="text-white-75 small">Earnings (Monthly)</div>
-                                                <div class="text-lg fw-bold">$40,000</div>
+                                                <i class="feather-xl text-primary mb-3" data-feather="package"></i>
+                                                <h5 class="text-muted">Total Pasien</h5>
+                                                <h3><b><?= $total_pasien ?? 0; ?></b></h3>
                                             </div>
-                                            <i class="feather-xl text-white-50" data-feather="calendar"></i>
+                                            <img src="assets/img/illustrations/browser-stats.svg" alt="..." style="width: 8rem" />
                                         </div>
                                     </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between small">
-                                        <a class="text-white stretched-link" href="#!">View Report</a>
-                                        <div class="text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
-                            <div class="col-lg-6 col-xl-3 mb-4">
-                                <div class="card bg-warning text-white h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-xl-4 mb-4">
+                                <a class="card lift h-100" href="#!">
+                                    <div class="card-body d-flex justify-content-center flex-column">
+                                        <div class="d-flex align-items-center justify-content-between">
                                             <div class="me-3">
-                                                <div class="text-white-75 small">Earnings (Annual)</div>
-                                                <div class="text-lg fw-bold">$215,000</div>
+                                                <i class="feather-xl text-secondary mb-3" data-feather="book"></i>
+                                                <h5 class="text-muted">Total Kunjungan</h5>
+                                                <h3><b><?= $total_kunjungan ?? 0; ?></b></h3>
                                             </div>
-                                            <i class="feather-xl text-white-50" data-feather="dollar-sign"></i>
+                                            <img src="assets/img/illustrations/processing.svg" alt="..." style="width: 8rem" />
                                         </div>
                                     </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between small">
-                                        <a class="text-white stretched-link" href="#!">View Report</a>
-                                        <div class="text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
-                            <div class="col-lg-6 col-xl-3 mb-4">
-                                <div class="card bg-success text-white h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-xl-4 mb-4">
+                                <a class="card lift h-100" href="#!">
+                                    <div class="card-body d-flex justify-content-center flex-column">
+                                        <div class="d-flex align-items-center justify-content-between">
                                             <div class="me-3">
-                                                <div class="text-white-75 small">Task Completion</div>
-                                                <div class="text-lg fw-bold">24</div>
+                                                <i class="feather-xl text-green mb-3" data-feather="layout"></i>
+                                                <h5 class="text-muted">Total Pendapatan</h5>
+                                                <h3><b><?= formatRupiah($total_pendapatan ?? 0); ?></b></h3>
                                             </div>
-                                            <i class="feather-xl text-white-50" data-feather="check-square"></i>
+                                            <img src="assets/img/illustrations/windows.svg" alt="..." style="width: 8rem" />
                                         </div>
                                     </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between small">
-                                        <a class="text-white stretched-link" href="#!">View Tasks</a>
-                                        <div class="text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-xl-3 mb-4">
-                                <div class="card bg-danger text-white h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="me-3">
-                                                <div class="text-white-75 small">Pending Requests</div>
-                                                <div class="text-lg fw-bold">17</div>
-                                            </div>
-                                            <i class="feather-xl text-white-50" data-feather="message-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between small">
-                                        <a class="text-white stretched-link" href="#!">View Requests</a>
-                                        <div class="text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>
