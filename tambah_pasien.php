@@ -1,6 +1,10 @@
 <?php
 include 'db_connect.php';
 
+$notifications = [];
+$errors = [];
+$success_message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nik = $_POST['nik'];
     $nama = $_POST['nama'];
@@ -11,10 +15,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_kota = $_POST['id_kota'];
     $id_alergi = json_encode($_POST['id_alergi']);
 
-    $stmt = $conn->prepare("INSERT INTO pasien (nik, nama, jenis_kelamin, golongan_darah, tgl_lahir, alamat_lengkap, id_kota, id_alergi) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssis", $nik, $nama, $jenis_kelamin, $golongan_darah, $tgl_lahir, $alamat_lengkap, $id_kota, $id_alergi);
-    $stmt->execute();
-    $stmt->close();
+    // Validasi input
+    if (!ctype_digit($nik) || strlen($nik) !== 16) {
+        $errors[] = "NIK harus berupa 16 digit angka.";
+    }
+
+    if (empty($nama)) {
+        $errors[] = "Nama tidak boleh kosong.";
+    }
+
+    if (!in_array($jenis_kelamin, ['Laki-laki', 'Perempuan'])) {
+        $errors[] = "Jenis kelamin tidak valid.";
+    }
+
+    if (!in_array($golongan_darah, ['A', 'B', 'AB', 'O'])) {
+        $errors[] = "Golongan darah tidak valid.";
+    }
+
+    if (empty($tgl_lahir) || !preg_match("/^\d{4}-\d{2}-\d{2}$/", $tgl_lahir)) {
+        $errors[] = "Tanggal lahir harus dalam format YYYY-MM-DD.";
+    }
+
+    if (empty($alamat_lengkap)) {
+        $errors[] = "Alamat lengkap tidak boleh kosong.";
+    }
+
+    if (empty($id_kota) || !ctype_digit($id_kota)) {
+        $errors[] = "Kota harus dipilih.";
+    }
+
+    if (empty($_POST['id_alergi'])) {
+        $errors[] = "Setidaknya satu alergi harus dipilih.";
+    }
+
+    // Proses jika tidak ada error
+    if (empty($errors)) {
+        $stmt = $conn->prepare("INSERT INTO pasien (nik, nama, jenis_kelamin, golongan_darah, tgl_lahir, alamat_lengkap, id_kota, id_alergi) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssis", $nik, $nama, $jenis_kelamin, $golongan_darah, $tgl_lahir, $alamat_lengkap, $id_kota, $id_alergi);
+
+        if ($stmt->execute()) {
+            $success_message = "Pasien berhasil ditambahkan.";
+            $notifications[] = [
+                'type' => 'success',
+                'message' => 'Pasien baru berhasil ditambahkan: ' . htmlspecialchars($nama),
+                'time' => date('Y-m-d H:i:s')
+            ];
+        } else {
+            $errors[] = "Gagal menambahkan pasien. Silakan coba lagi.";
+        }
+
+        $stmt->close();
+    } else {
+        foreach ($errors as $error) {
+            $notifications[] = [
+                'type' => 'danger',
+                'message' => $error,
+                'time' => date('Y-m-d H:i:s')
+            ];
+        }
+    }
 }
 
 $result = $conn->query("SELECT * FROM pasien");
@@ -55,6 +114,22 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                     <div class="card mb-4">
                                         <div class="card-header">Form Tambah Pasien Baru</div>
                                         <div class="card-body">
+
+                                            <?php if (!empty($errors)): ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <ul>
+                                                        <?php foreach ($errors as $error): ?>
+                                                            <li><?= htmlspecialchars($error) ?></li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($success_message)): ?>
+                                                <div class="alert alert-success" role="alert">
+                                                    <?= htmlspecialchars($success_message) ?>
+                                                </div>
+                                            <?php endif; ?>
+
                                             <div class="sbp-preview">
                                                 <div class="sbp-preview-content">
                                                     <form class="row g-3" method="POST">

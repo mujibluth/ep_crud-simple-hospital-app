@@ -20,28 +20,39 @@
     </li>
 
     <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
-        <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="bell"></i></a>
+        <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i data-feather="bell"></i>
+        </a>
         <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts">
             <h6 class="dropdown-header dropdown-notifications-header">
                 <i class="me-2" data-feather="bell"></i>
                 Alerts Center
             </h6>
 
-            <a class="dropdown-item dropdown-notifications-item" href="#!">
-                <div class="dropdown-notifications-item-icon bg-danger"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="dropdown-notifications-item-content">
-                    <div class="dropdown-notifications-item-content-details">December 8, 2021</div>
-                    <div class="dropdown-notifications-item-content-text">Critical system failure, systems shutting down.</div>
+            <?php if (!empty($notifications)): ?>
+                <?php foreach ($notifications as $notif): ?>
+                    <a class="dropdown-item dropdown-notifications-item" href="#!">
+                        <div class="dropdown-notifications-item-icon bg-<?= $notif['type'] ?>">
+                            <?php if ($notif['type'] === 'success'): ?>
+                                <i class="fas fa-check-circle"></i>
+                            <?php elseif ($notif['type'] === 'danger'): ?>
+                                <i class="fas fa-exclamation-circle"></i>
+                            <?php endif; ?>
+                        </div>
+                        <div class="dropdown-notifications-item-content">
+                            <!-- <div class="dropdown-notifications-item-content-details"><?= $notif['time'] ?></div> -->
+                            <div class="dropdown-notifications-item-content-text"><?= $notif['message'] ?></div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="dropdown-item dropdown-notifications-item">
+                    <div class="dropdown-notifications-item-content">
+                        <div class="dropdown-notifications-item-content-text">Tidak ada notifikasi baru.</div>
+                    </div>
                 </div>
-            </a>
+            <?php endif; ?>
 
-            <a class="dropdown-item dropdown-notifications-item" href="#!">
-                <div class="dropdown-notifications-item-icon bg-success"><i data-feather="user-plus"></i></div>
-                <div class="dropdown-notifications-item-content">
-                    <div class="dropdown-notifications-item-content-details">December 2, 2021</div>
-                    <div class="dropdown-notifications-item-content-text">New user request. Woody has requested access to the organization.</div>
-                </div>
-            </a>
             <a class="dropdown-item dropdown-notifications-footer" href="#!">View All Alerts</a>
         </div>
     </li>
