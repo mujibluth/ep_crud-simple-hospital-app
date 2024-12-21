@@ -60,30 +60,30 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                                 <div class="sbp-preview-content">
                                                     <form class="row g-3" method="POST">
                                                         <div class="col-md-4">
-                                                            <label class="form-label">NIK</label>
+                                                            <label class="form-label">NIK</label><small class="text-danger">*</small>
                                                             <input type="text" class="form-control" name="nik" placeholder="" required>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="form-label">Nama</label>
+                                                            <label class="form-label">Nama</label><small class="text-danger">*</small>
                                                             <input type="text" class="form-control" name="nama" placeholder="" required>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <label class="form-label">Jenis Kelamin</label>
-                                                            <select name="jenis_kelamin" class="form-select">
+                                                            <label class="form-label">Jenis Kelamin</label><small class="text-danger">*</small>
+                                                            <select name="jenis_kelamin" class="form-select" required>
                                                                 <option value="Laki-laki">Laki-laki</option>
                                                                 <option value="Perempuan">Perempuan</option>
                                                             </select>
                                                         </div>
 
                                                         <div class="col-md-2">
-                                                            <label class="form-label">Alergi:</label> <br>
+                                                            <label class="form-label">Alergi:</label><small class="text-danger">*</small> <br>
                                                             <?php while ($row = $alergi->fetch_assoc()): ?>
-                                                                <input type="checkbox" name="id_alergi[]" value="<?= $row['id'] ?>"> <?= $row['nama'] ?><br>
+                                                                <input type="checkbox" name="id_alergi[]" value="<?= $row['id'] ?>" required> <?= $row['nama'] ?><br>
                                                             <?php endwhile; ?>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <label class="form-label">Golongan Darah</label>
-                                                            <select name="golongan_darah" class="form-select">
+                                                            <label class="form-label">Golongan Darah</label><small class="text-danger">*</small>
+                                                            <select name="golongan_darah" class="form-select" required>
                                                                 <option value="A">A</option>
                                                                 <option value="B">B</option>
                                                                 <option value="AB">AB</option>
@@ -91,21 +91,21 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="form-label">Tempat Lahir</label>
-                                                            <select name="id_kota" class="form-select">
+                                                            <label class="form-label">Tempat Lahir</label><small class="text-danger">*</small>
+                                                            <select name="id_kota" class="form-select" required>
                                                                 <?php while ($row = $kota->fetch_assoc()): ?>
                                                                     <option value="<?= $row['id'] ?>"><?= $row['nama'] ?></option>
                                                                 <?php endwhile; ?>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <label class="form-label">Tanggal Lahir</label>
-                                                            <input name="tgl_lahir" class="form-control" type="date" />
+                                                            <label class="form-label">Tanggal Lahir</label><small class="text-danger">*</small>
+                                                            <input name="tgl_lahir" class="form-control" type="date" required />
                                                         </div>
 
                                                         <div class="col-12">
-                                                            <label class="form-label">Alamat Lengkap</label>
-                                                            <textarea type="text" class="form-control" name="alamat_lengkap" placeholder="1234 Main St"></textarea>
+                                                            <label class="form-label">Alamat Lengkap</label><small class="text-danger">*</small>
+                                                            <textarea type="text" class="form-control" name="alamat_lengkap" placeholder="1234 Main St" required></textarea>
                                                         </div>
                                                         <div class="col-12">
                                                             <button type="submit" class="btn btn-primary">Tambah Pasien</button>
