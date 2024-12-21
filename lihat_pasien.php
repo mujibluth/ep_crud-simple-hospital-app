@@ -48,7 +48,7 @@ while ($row = $alergiResult->fetch_assoc()) {
                         <?php include 'header.php'; ?>
                     </header>
 
-                    <div class="container-xl px-4 mt-n10">
+                    <div class="px-4 mt-n10">
                         <div class="card mb-4">
                             <div class="card-header">Tabel Data Pasien</div>
                             <div class="card-body table-responsive">

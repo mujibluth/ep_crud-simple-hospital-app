@@ -1,4 +1,4 @@
-<div class="container-xl px-4">
+<div class="px-4">
     <div class="page-header-content pt-4">
         <div class="row align-items-center justify-content-between">
             <div class="col-auto mt-4">

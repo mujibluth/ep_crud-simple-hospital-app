@@ -44,7 +44,7 @@ $alergi = $conn->query("SELECT * FROM alergi");
                         <?php include 'header.php'; ?>
                     </header>
 
-                    <div class="container-xl px-4 mt-n10">
+                    <div class="px-4 mt-n10">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div id="default">

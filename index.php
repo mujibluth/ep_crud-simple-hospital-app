@@ -31,7 +31,7 @@ $alergi = $conn->query("SELECT * FROM alergi");
                         <?php include 'header.php'; ?>
                     </header>
 
-                    <div class="container-xl px-4 mt-n10">
+                    <div class="px-4 mt-n10">
                         <div class="row">
                             <div class="col-lg-6 col-xl-3 mb-4">
                                 <div class="card bg-primary text-white h-100">
