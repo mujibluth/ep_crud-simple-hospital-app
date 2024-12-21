@@ -77,7 +77,7 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                                         <div class="col-md-2">
                                                             <label class="form-label">Alergi:</label><small class="text-danger">*</small> <br>
                                                             <?php while ($row = $alergi->fetch_assoc()): ?>
-                                                                <input type="checkbox" name="id_alergi[]" value="<?= $row['id'] ?>" required> <?= $row['nama'] ?><br>
+                                                                <input type="checkbox" name="id_alergi[]" value="<?= $row['id'] ?>"> <?= $row['nama'] ?><br>
                                                             <?php endwhile; ?>
                                                         </div>
                                                         <div class="col-md-2">

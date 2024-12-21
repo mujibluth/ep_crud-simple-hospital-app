@@ -1,8 +1,25 @@
 <?php 
 include 'db_connect.php';
-$result = $conn->query("SELECT * FROM pasien");
-$kota = $conn->query("SELECT * FROM kota");
-$alergi = $conn->query("SELECT * FROM alergi");
+$result = $conn->query("
+    SELECT 
+        p.nik,
+        p.nama,
+        p.jenis_kelamin,
+        p.golongan_darah,
+        p.tgl_lahir,
+        p.alamat_lengkap,
+        k.nama AS nama_kota,
+        p.id_alergi
+    FROM pasien p
+    JOIN kota k ON p.id_kota = k.id
+");
+
+$alergiData = [];
+$alergiResult = $conn->query("SELECT id, nama FROM alergi");
+while ($row = $alergiResult->fetch_assoc()) {
+    $alergiData[$row['id']] = $row['nama'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,6 +79,15 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                     </tfoot>
                                     <tbody>
                                         <?php while ($row = $result->fetch_assoc()): ?>
+                                            <?php 
+                                            $alergiIds = json_decode($row['id_alergi'], true);
+                                            $alergiNames = [];
+                                            foreach ($alergiIds as $id) {
+                                                if (isset($alergiData[$id])) {
+                                                    $alergiNames[] = $alergiData[$id];
+                                                }
+                                            }
+                                            ?>
                                             <tr>
                                                 <td><?= $row['nik'] ?></td>
                                                 <td><?= $row['nama'] ?></td>
@@ -69,8 +95,8 @@ $alergi = $conn->query("SELECT * FROM alergi");
                                                 <td><?= $row['golongan_darah'] ?></td>
                                                 <td><?= $row['tgl_lahir'] ?></td>
                                                 <td><?= $row['alamat_lengkap'] ?></td>
-                                                <td><?= $row['id_kota'] ?></td>
-                                                <td><?= $row['id_alergi'] ?></td>
+                                                <td><?= $row['nama_kota'] ?></td>
+                                                <td><?= implode(', ', $alergiNames) ?></td>
                                             </tr>
                                         <?php endwhile; ?>
                                     </tbody>
