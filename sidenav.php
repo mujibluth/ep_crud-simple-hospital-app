@@ -34,18 +34,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                 Riwayat Kunjungan
             </a>
-
-            <div class="sidenav-menu-heading">Pelaporan</div>
-            <a class="nav-link <?php echo ($current_page == 'laporan_keuangan.php') ? 'active' : ''; ?>" href="laporan_keuangan.php">
-                <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                Laporan Keuangan
-            </a>
         </div>
     </div>
     <div class="sidenav-footer">
         <div class="sidenav-footer-content">
             <div class="sidenav-footer-subtitle">Logged in as:</div>
-            <div class="sidenav-footer-title">Valerie Luna</div>
+            <div class="sidenav-footer-title">Admin</div>
         </div>
     </div>
 </nav>
