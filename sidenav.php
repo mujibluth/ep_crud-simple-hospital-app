@@ -4,8 +4,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <nav class="sidenav shadow-right sidenav-light">
     <div class="sidenav-menu">
+        
         <div class="nav accordion" id="accordionSidenav">
-            <div class="sidenav-menu-heading">Core</div>
+            <div class="mt-3">
+                <img loading="lazy" src="assets/img/logo.jpg" style="width: 100px; display: block; margin-left: auto; margin-right: auto;" alt="">
+            </div>
+            <div class="sidenav-menu-heading">Dashboard</div>
             <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">
                 <div class="nav-link-icon"><i data-feather="activity"></i></div>
                 Dashboards
